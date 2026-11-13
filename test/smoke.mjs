@@ -354,7 +354,7 @@ const canvasPainted = (p, sel) =>
   const shelfCount = (id) => p.locator(`section[aria-labelledby="${id}"] .book`).count();
   check(problems.length === 0, `books: every request resolves, no script errors${problems.length ? " — " + problems.join(", ") : ""}`);
   check((await shelfCount("shelf-all")) === 22, "books: every book in the list is on the main shelf");
-  check(await p.locator("#shelf-reading").count() === 0 && (await p.locator("#shelf-all").textContent()).trim() === "In the order I read them", "books: no Reading now shelf; the main shelf is headed as asked");
+  check(await p.locator("#shelf-reading").count() === 0 && await p.locator("#shelf-all").evaluate((h) => h.children.length === 1 && h.firstElementChild.classList.contains("sr-only") && h.textContent.trim() === "All books" && h.getBoundingClientRect().height < 20 && parseFloat(getComputedStyle(h).borderTopWidth) > 0), "books: no Reading now shelf; the main shelf has a rule and no visible heading");
   check((await shelfCount("shelf-favourites")) === 6, "books: favourites have their own shelf");
 
   const titles = (id) => p.locator(`section[aria-labelledby="${id}"] .book .sr-only`).allTextContents();

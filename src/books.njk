@@ -40,7 +40,10 @@ usesBooks: true
 {% endif %}
 
 <section class="shelf" aria-labelledby="shelf-all">
-  <h2 class="section-head" id="shelf-all"></h2>
+  {# No visible heading, by the owner's choice: just the rule. The name
+     is kept for screen readers, which would otherwise announce an empty
+     heading. #}
+  <h2 class="section-head" id="shelf-all"><span class="sr-only">All books</span></h2>
   <ul class="books" data-book-shelf>{% for b in lib.all %}{{ cover(b) }}{% endfor %}</ul>
 </section>
 
