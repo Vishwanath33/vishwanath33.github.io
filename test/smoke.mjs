@@ -416,11 +416,7 @@ const canvasPainted = (p, sel) =>
   check(/sometime last spring/i.test(await pop.innerText()), "books: a date that is not a date is shown as written");
   await p.keyboard.press("Escape");
 
-  // The main shelf, by status.
-  await p.click('[data-book-filter] [data-show="to-read"]');
-  check(await p.locator("[data-book-shelf] .book:visible").count() === 4 && await p.getAttribute('[data-book-filter] [data-show="to-read"]', "aria-pressed") === "true", "books: the shelf can be narrowed to books not yet read");
-  await p.click('[data-book-filter] [data-show="all"]');
-  check(await p.locator("[data-book-shelf] .book:visible").count() === 22, "books: …and widened again");
+  check(await p.locator("[data-book-filter], .shelf__filter").count() === 0 && (await p.locator(".section-head").allTextContents()).every((t) => !/latest first/i.test(t)), "books: no filter buttons, and no notes beside the shelf headings");
   await ctx.close();
 
   const phone = await page({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
@@ -440,7 +436,7 @@ const canvasPainted = (p, sel) =>
 
   const plain = await page({ javaScriptEnabled: false });
   await plain.p.goto(`${BASE}books/`, { waitUntil: "load" });
-  check(await plain.p.locator(".book-list .bookcard").count() === 22 && await plain.p.locator(".book-list").isVisible() && await plain.p.locator("[data-book-filter]").isHidden(), "books: without scripts, the whole list is there to read");
+  check(await plain.p.locator(".book-list .bookcard").count() === 22 && await plain.p.locator(".book-list").isVisible(), "books: without scripts, the whole list is there to read");
   await plain.ctx.close();
 
   // The reading list as published: whatever is on it, it must hold together.

@@ -903,8 +903,6 @@ code, pre, samp { font-family: var(--mono); font-size: 0.8em; font-variant-numer
 @container text (max-width: 28rem) { .shelf { --cols: 4; } }
 @container text (max-width: 19rem) { .shelf { --cols: 3; } }
 
-.section-head__aside { margin-left: 0.9em; font-weight: 400; color: var(--ink-3); }
-
 .books {
   display: grid;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
@@ -1031,31 +1029,6 @@ code, pre, samp { font-family: var(--mono); font-size: 0.8em; font-variant-numer
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
 }
-
-.shelf__filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.4rem;
-  margin: -0.7rem 0 1.7rem;
-  font: 0.7rem var(--mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.shelf__filter[hidden] { display: none; }
-.shelf__filter button {
-  padding: 0 0 0.2rem;
-  font: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-  color: var(--ink-3);
-  background: none;
-  border: 0;
-  border-bottom: 1px solid transparent;
-  cursor: pointer;
-}
-.shelf__filter button:hover { color: var(--accent); }
-.shelf__filter button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-.shelf__filter button span:last-child { margin-left: 0.25em; color: var(--ink-3); }
 
 /* A book's card: once in the list at the foot of the page (all a reader
    without scripts gets, and enough), and beside its cover when opened. */

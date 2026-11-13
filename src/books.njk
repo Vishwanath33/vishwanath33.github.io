@@ -41,21 +41,14 @@ usesBooks: true
 
 {% if lib.favourites.length %}
 <section class="shelf" aria-labelledby="shelf-favourites">
-  <h2 class="section-head" id="shelf-favourites">Favourites <span class="section-head__aside">latest first</span></h2>
+  <h2 class="section-head" id="shelf-favourites">Favourites</h2>
   <ul class="books">{% for b in lib.favourites %}{{ cover(b) }}{% endfor %}</ul>
 </section>
 {% endif %}
 
 <section class="shelf" aria-labelledby="shelf-all">
-  <h2 class="section-head" id="shelf-all">All books <span class="section-head__aside">latest first</span></h2>
-  <div class="shelf__filter" role="group" aria-label="Show" data-book-filter hidden>
-    <button type="button" data-show="all" aria-pressed="true">All <span>{{ lib.total }}</span></button>
-    {%- for key, st in lib.statuses %}{% if lib.counts[key] %}
-    <button type="button" data-show="{{ key }}" aria-pressed="false"><span aria-hidden="true">{{ st.glyph }}</span> {{ st.short }} <span>{{ lib.counts[key] }}</span></button>
-    {%- endif %}{% endfor %}
-  </div>
+  <h2 class="section-head" id="shelf-all">All books</h2>
   <ul class="books" data-book-shelf>{% for b in lib.all %}{{ cover(b) }}{% endfor %}</ul>
-  <p class="empty-note" data-book-none hidden>No books with that status.</p>
 </section>
 
 {# The cards. Without JavaScript this is simply the list, in full. #}

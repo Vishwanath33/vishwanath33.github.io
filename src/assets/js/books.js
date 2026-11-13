@@ -1,8 +1,8 @@
 /**
  * The Books page. Every book's card is already in the page, in the list at
  * its foot; this shows a card beside its cover instead: on hover or focus
- * as a glance, on click or tap to keep it open. It also filters the main
- * shelf by status. Without this script the list at the foot is the page.
+ * as a glance, on click or tap to keep it open. Without this script the
+ * list at the foot is the page.
  */
 (() => {
   "use strict";
@@ -137,26 +137,6 @@
   });
   window.addEventListener("resize", place);
   narrow.addEventListener?.("change", place);
-
-  // --- the main shelf, by status ---------------------------------------
-  const filter = document.querySelector("[data-book-filter]");
-  const shelf = document.querySelector("[data-book-shelf]");
-  const none = document.querySelector("[data-book-none]");
-  if (filter && shelf && filter.querySelectorAll("button").length > 2) {
-    filter.hidden = false;
-    filter.addEventListener("click", (e) => {
-      const chosen = e.target.closest("button[data-show]");
-      if (!chosen) return;
-      hide();
-      let shown = 0;
-      for (const b of filter.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b === chosen));
-      for (const li of shelf.children) {
-        li.hidden = chosen.dataset.show !== "all" && li.dataset.status !== chosen.dataset.show;
-        if (!li.hidden) shown++;
-      }
-      if (none) none.hidden = shown > 0;
-    });
-  }
 
   window.__books = {
     get open() { return current ? current.dataset.book : null; },

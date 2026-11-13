@@ -304,7 +304,7 @@ src/
   assets/js/plate.js       ← Plate I, the attractor as an instrument
   assets/js/graph.js       ← the neighbourhood figures and the map
   assets/js/library.js     ← search, sidenotes, theme
-  assets/js/books.js       ← the Books page: cards and the status filter
+  assets/js/books.js       ← the Books page: a book's card beside its cover
   assets/covers/           ← cover images for the Books page
   books.txt                ← the reading list behind the Books page
   notes/*.md               ← the library

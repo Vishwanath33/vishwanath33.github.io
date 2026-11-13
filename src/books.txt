@@ -326,7 +326,6 @@ cover: the-prince.jpg
 title: Mastery
 author: Robert Greene
 read: 2023-12-25
-favourite: yes
 cover: mastery.jpg
 
 ---
