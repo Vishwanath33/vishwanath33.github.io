@@ -107,6 +107,7 @@ cover: the-subtle-art.jpg
 title: How to Become a Straight-A Student
 author: Cal Newport
 read: 2022-10-03
+cover: how-to-become-a-straight-a-student.jpg
 
 ---
 
@@ -127,6 +128,7 @@ cover: 12-rules-for-life.jpg
 title: The Code of the Extraordinary Mind
 author: Vishen Lakhiani
 read: 2022-11-16
+cover: the-code-of-the-extraordinary-mind.jpg
 
 ---
 
@@ -140,6 +142,7 @@ cover: mindset.jpg
 title: What It Takes
 author: Stephen A. Schwarzman
 read: 2022-12-04
+cover: what-it-takes.jpg
 
 ---
 
@@ -167,12 +170,14 @@ cover: the-slight-edge.jpg
 title: The Almanack of Naval Ravikant
 author: Eric Jorgenson
 read: 2023-04-18
+cover: the-almanack-of-naval-ravikant.jpg
 
 ---
 
 title: The Sh*t They Never Taught You
 author: Adam Ashton and Adam Jones
 read: 2023-05-05
+cover: the-sht-they-never-taught-you.jpg
 
 ---
 
@@ -209,10 +214,12 @@ title: The Beginning of Infinity
 author: David Deutsch
 date: 2023-07-29
 status: dropped
+cover: the-beginning-of-infinity.jpg
 
 ---
 
 title: Time Is Money
+author: Aiden Nolan
 read: 2023-07-30
 
 ---
@@ -220,6 +227,7 @@ read: 2023-07-30
 title: Your Next Five Moves
 author: Patrick Bet-David
 read: 2023-08-03
+cover: your-next-five-moves.jpg
 
 ---
 
@@ -264,6 +272,7 @@ cover: the-pathless-path.jpg
 title: The Science of Self-Learning
 author: Peter Hollins
 read: 2023-09-08
+cover: the-science-of-self-learning.jpg
 
 ---
 
@@ -271,6 +280,7 @@ title: The Fabric of Reality
 author: David Deutsch
 date: 2023-09-11
 status: to return to
+cover: the-fabric-of-reality.jpg
 
 ---
 
@@ -282,12 +292,16 @@ cover: the-power-of-now.jpg
 ---
 
 title: The Trading Game
-read: 2023-10-17
+author: Gary Stevenson
+read: 2023
+cover: the-trading-game.jpg
 
 ---
 
 title: Last Man Standing
+author: Duff McDonald
 read: 2023-11-10
+cover: last-man-standing.jpg
 
 ---
 
@@ -317,6 +331,7 @@ cover: mastery.jpg
 title: The Art of Focus
 author: Dan Koe
 read: 2024-01-23
+cover: the-art-of-focus.jpg
 
 ---
 
@@ -324,6 +339,7 @@ title: The Birth of Tragedy
 author: Friedrich Nietzsche
 date: 2025-03-06
 status: dropped
+cover: the-birth-of-tragedy.jpg
 
 ---
 
@@ -331,6 +347,7 @@ title: Thus Spoke Zarathustra
 author: Friedrich Nietzsche
 read: 2025-03-08
 favourite: yes
+cover: thus-spoke-zarathustra.jpg
 
 ---
 
@@ -375,6 +392,7 @@ title: Mistborn
 author: Brandon Sanderson
 read: 2026-03-01
 favourite: yes
+cover: mistborn.jpg
 
 ---
 
@@ -419,12 +437,14 @@ cover: godel-escher-bach.jpg
 title: Life Ascending
 author: Nick Lane
 read: 2026-06-20
+cover: life-ascending.jpg
 
 ---
 
 title: The MANIAC
 author: Benjamín Labatut
 read: 2026-08-14
+cover: the-maniac.jpg
 
 ---
 
@@ -432,6 +452,7 @@ title: Being You
 author: Anil Seth
 date: 2026-09-03
 status: on hold
+cover: being-you.jpg
 
 ---
 
@@ -439,5 +460,6 @@ title: A Mind at Play
 author: Jimmy Soni and Rob Goodman
 date: 2026-10-24
 status: reading
+cover: a-mind-at-play.jpg
 
 ---
