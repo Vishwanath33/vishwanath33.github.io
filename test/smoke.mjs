@@ -346,8 +346,8 @@ const canvasPainted = (p, sel) =>
   const st = Object.fromEntries(lib.all.map((b) => [b.title, b.status]));
   check(
     ["read", "reading", "on-hold", "dropped", "to-return", "to-return", "to-read", "read"].every((want, i) => st[`Book ${i}`] === want) &&
-      lib.warnings.length === 1 && lib.recent.length === 2 && lib.reading.length === 1 && lib.counts.dropped === 1,
-    "books: every status is understood as typed; an unknown one is reported; only finished books count as recently read",
+      lib.warnings.length === 1 && lib.reading.length === 1 && lib.counts.dropped === 1 && lib.all[0].title === "Book 7" && lib.all[7].title === "Book 0",
+    "books: every status is understood as typed; an unknown one is reported; the shelf runs latest first",
   );
   const { ctx, p, problems } = await page({ viewport: { width: 1440, height: 1000 } });
   await p.goto(`${BASE}books/`, { waitUntil: "networkidle" });
@@ -358,13 +358,13 @@ const canvasPainted = (p, sel) =>
   check((await shelfCount("shelf-favourites")) === 6, "books: favourites have their own shelf");
 
   const titles = (id) => p.locator(`section[aria-labelledby="${id}"] .book .sr-only`).allTextContents();
-  const recent = await titles("shelf-recent");
-  check(recent.length === 7 && recent[0].startsWith("Practical Typography") && recent[1].startsWith("The Form of the Book"), "books: recently read is the latest seven, newest first");
+  check(await p.locator("#shelf-recent").count() === 0, "books: no separate recently-read shelf; the main shelf already starts with the latest");
   const favs = await titles("shelf-favourites");
-  check(favs[0].startsWith("Labyrinths") && favs[5].startsWith("Chaos"), "books: favourites run in the order they were read");
+  check(favs[0].startsWith("Chaos") && favs[5].startsWith("Labyrinths"), "books: favourites run from the latest read to the first");
   const all = await titles("shelf-all");
-  check(all[0].startsWith("Labyrinths") && all[1].startsWith("The Elements of Typographic Style") && all[20].startsWith("The Visual Display"), "books: the main shelf is in order of author's surname, however the name is written");
-  check(all[21].startsWith("An Untitled Pamphlet"), "books: a book with no author goes last");
+  check(all[0].startsWith("The Art of Doing Science") && all[1].startsWith("Nonlinear Dynamics"), "books: books being read, with no date yet, head the main shelf");
+  check(all[2].startsWith("Practical Typography") && all[3].startsWith("The Form of the Book") && all[4].startsWith("Chaos"), "books: then the main shelf runs from the latest read");
+  check(all[16].startsWith("The Pleasure of Finding Things Out") && all[21].startsWith("The Fractal Geometry"), "books: …back to the first, with undated books after it");
 
   check(await p.locator('[data-book-shelf] img[src$="covers/chaos.svg"]').evaluate((img) => img.complete && img.naturalWidth > 0), "books: a cover image loads");
   const strogatz = p.locator('[data-book-shelf] .book:has-text("Nonlinear Dynamics") .cover--set');
@@ -426,7 +426,7 @@ const canvasPainted = (p, sel) =>
   const phone = await page({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   await phone.p.goto(`${BASE}books/`, { waitUntil: "networkidle" });
   check(await phone.p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "books: no horizontal scroll on a phone");
-  check(await phone.p.locator('section[aria-labelledby="shelf-recent"] .book:visible').count() === 4, "books: on a phone, recently read is still one row");
+  check(await phone.p.evaluate(() => getComputedStyle(document.querySelector("[data-book-shelf]")).gridTemplateColumns.split(" ").length) === 4, "books: on a phone, four covers to the row");
   await phone.p.locator('[data-book-shelf] [data-book="book-the-essence-of-chaos-lorenz"]').tap();
   await phone.p.waitForTimeout(200);
   const docked = await phone.p.evaluate(() => {

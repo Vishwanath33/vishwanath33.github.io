@@ -894,14 +894,14 @@ code, pre, samp { font-family: var(--mono); font-size: 0.8em; font-variant-numer
 .subject:target .subject__head { color: var(--accent); }
 
 /* --- books -------------------------------------------------------------------
-   Covers on shelves. A fixed number to the row at each width, so "recently
-   read" can be exactly one row; an image where there is one, and otherwise
-   a cover set in type on book cloth. */
+   Covers on shelves, latest read first; a fixed number to the row at each
+   width. An image where there is one, and otherwise a cover set in type on
+   book cloth. */
 .shelf { --cols: 7; margin-bottom: 3.75rem; }
-@container text (max-width: 44rem) { .shelf { --cols: 6; } .books--row > :nth-child(n + 7) { display: none; } }
-@container text (max-width: 36rem) { .shelf { --cols: 5; } .books--row > :nth-child(n + 6) { display: none; } }
-@container text (max-width: 28rem) { .shelf { --cols: 4; } .books--row > :nth-child(n + 5) { display: none; } }
-@container text (max-width: 19rem) { .shelf { --cols: 3; } .books--row > :nth-child(n + 4) { display: none; } }
+@container text (max-width: 44rem) { .shelf { --cols: 6; } }
+@container text (max-width: 36rem) { .shelf { --cols: 5; } }
+@container text (max-width: 28rem) { .shelf { --cols: 4; } }
+@container text (max-width: 19rem) { .shelf { --cols: 3; } }
 
 .section-head__aside { margin-left: 0.9em; font-weight: 400; color: var(--ink-3); }
 

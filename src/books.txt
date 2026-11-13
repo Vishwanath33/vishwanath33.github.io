@@ -16,8 +16,9 @@
 # Only the title is required. The fields:
 #
 #     title      the book's title, written as you like (colons are fine)
-#     author     who wrote it; books are shelved by the author's surname
-#     read       when you finished it: 2024-03-10, 2024-03 or just 2024
+#     author     who wrote it
+#     read       when you finished it: 2024-03-10, 2024-03 or just 2024;
+#                the shelves run from the latest read back to the first
 #                (write "date:" instead for a book you did not finish:
 #                the day you started, paused or dropped it)
 #     status     read, reading, on hold, to return to, to read or dropped
@@ -182,8 +183,9 @@ cover: the-sht-they-never-taught-you.jpg
 ---
 
 title: The Male Advantage
-author: Kristofer Sturmey
+author: Kris Sturmey
 read: 2023-06-03
+cover: the-male-advantage.jpg
 
 ---
 
@@ -221,6 +223,7 @@ cover: the-beginning-of-infinity.jpg
 title: Time Is Money
 author: Aiden Nolan
 read: 2023-07-30
+cover: time-is-money.jpg
 
 ---
 

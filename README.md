@@ -106,9 +106,10 @@ Does the flap of a butterfly's wings in Brazil set off a tornado in Texas?
 
 ## Books
 
-The **Books** page (`/books/`) is a wall of covers: what is being read, what
-was read lately, favourites in the order they were read, and everything by
-author. Selecting a cover opens a card with the date and any review.
+The **Books** page (`/books/`) is a wall of covers: what is being read,
+favourites, and then everything, each shelf running from the latest read
+back to the first. Selecting a cover opens a card with the date and any
+review.
 
 It is built from one plain file, **`src/books.txt`**. One block per book,
 with a line of three dashes between books:
@@ -135,7 +136,7 @@ Only `title` is required. No quotes, commas or indentation are needed.
 | Field | What it does |
 |---|---|
 | `title` | The title, written as you like. |
-| `author` | Books are shelved by the author's surname. |
+| `author` | Who wrote it. |
 | `read` | When it was finished: `2024-03-10`, `2024-03` or `2024`. `date` means the same, for a book that wasn't finished. |
 | `status` | `read`, `reading`, `on hold`, `to return to` (dropped, but meant to be picked up again), `to read` or `dropped`. Left out, the book counts as read. |
 | `favourite` | `yes` puts it on the Favourites shelf. |
