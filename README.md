@@ -106,9 +106,8 @@ Does the flap of a butterfly's wings in Brazil set off a tornado in Texas?
 
 ## Books
 
-The **Books** page (`/books/`) is a wall of covers: what is being read,
-favourites, and then everything, each shelf running from the latest read
-back to the first. Selecting a cover opens a card with the date and any
+The **Books** page (`/books/`) is a wall of covers: favourites, and then
+everything, each shelf running from the latest read back to the first. Selecting a cover opens a card with the date and any
 review.
 
 It is built from one plain file, **`src/books.txt`**. One block per book,

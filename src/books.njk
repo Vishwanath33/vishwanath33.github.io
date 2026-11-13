@@ -32,13 +32,6 @@ usesBooks: true
 <p class="empty-note">No books on these shelves yet.</p>
 {% else %}
 
-{% if lib.reading.length %}
-<section class="shelf" aria-labelledby="shelf-reading">
-  <h2 class="section-head" id="shelf-reading">Reading now</h2>
-  <ul class="books">{% for b in lib.reading %}{{ cover(b) }}{% endfor %}</ul>
-</section>
-{% endif %}
-
 {% if lib.favourites.length %}
 <section class="shelf" aria-labelledby="shelf-favourites">
   <h2 class="section-head" id="shelf-favourites">Favourites</h2>
@@ -47,7 +40,7 @@ usesBooks: true
 {% endif %}
 
 <section class="shelf" aria-labelledby="shelf-all">
-  <h2 class="section-head" id="shelf-all">All books</h2>
+  <h2 class="section-head" id="shelf-all">In the order I read them</h2>
   <ul class="books" data-book-shelf>{% for b in lib.all %}{{ cover(b) }}{% endfor %}</ul>
 </section>
 
