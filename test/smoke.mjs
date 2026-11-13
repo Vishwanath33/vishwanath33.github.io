@@ -389,8 +389,9 @@ const canvasPainted = (p, sel) =>
   await p.keyboard.press("Escape");
   check(await pop.isHidden() && await p.evaluate(() => document.activeElement.dataset.book === "book-chaos-making-a-new-science-gleick"), "books: Escape closes it and returns to the cover");
   await chaos.click();
-  await p.locator(".entry__title").click();
+  await p.locator("#shelf-all").click();
   check(await pop.isHidden(), "books: clicking elsewhere closes it");
+  check(await p.locator(".entry__head, .entry__title, .entry__dek, .kicker").count() === 0 && await p.locator("h1.sr-only").count() === 1, "books: no visible title or description, only the shelves");
 
   const essence = p.locator('[data-book-shelf] [data-book="book-the-essence-of-chaos-lorenz"]');
   await essence.click();

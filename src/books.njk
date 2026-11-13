@@ -24,11 +24,9 @@ usesBooks: true
 </li>
 {%- endmacro -%}
 
-<header class="entry__head">
-  <p class="kicker">Reading room{% if lib.total %}<span class="kicker__sep">·</span>{{ lib.total }} {{ "book" if lib.total == 1 else "books" }}{% endif %}</p>
-  <h1 class="entry__title">Books</h1>
-  <p class="entry__dek">Books read, being read, and waiting to be read. Select a cover for its date and any review.</p>
-</header>
+{# No visible heading or description, by request: the shelves open the
+   page. The title stays for screen readers and search engines. #}
+<h1 class="sr-only">Books</h1>
 
 {% if not lib.total %}
 <p class="empty-note">No books on these shelves yet.</p>
