@@ -1,0 +1,164 @@
+# Sample books for the smoke test and for screenshots. Not published.
+
+title: Chaos: Making a New Science
+author: James Gleick
+read: 2026-08-14
+favourite: yes
+cover: chaos.svg
+note: lorenz-attractor
+
+Sample review. The book that made the butterfly effect a household phrase:
+Lorenz's weather model, Feigenbaum's constants and Mandelbrot's coastlines,
+told through the people who found them.
+
+It links to an entry in this library: [[sensitive-dependence]].
+
+---
+
+title: The Essence of Chaos
+author: Edward N. Lorenz
+read: 2026-06-02
+favourite: yes
+cover: essence.svg
+link: https://uwapress.uw.edu/book/9780295975146/the-essence-of-chaos/
+
+Sample review. Lorenz's own account, written for a general reader, of what
+chaos is and of the model that bears his name.
+
+---
+
+title: Nonlinear Dynamics and Chaos
+author: Steven H. Strogatz
+status: reading
+cover: missing-file.jpg
+
+---
+
+title: The Elements of Typographic Style
+author: Robert Bringhurst
+read: 2025-11
+favourite: yes
+cover: elements.svg
+
+Sample review. The measure, the leading and most of the manners of this
+site come from here.
+
+---
+
+title: The Visual Display of Quantitative Information
+author: Tufte, Edward R.
+read: 2025
+favourite: yes
+
+---
+
+title: Gödel, Escher, Bach: An Eternal Golden Braid
+author: Douglas R. Hofstadter
+read: 2024-12-20
+favourite: yes
+
+Sample review. Strange loops, formal systems and fugues.
+
+---
+
+title: The Fractal Geometry of Nature
+author: Benoit B. Mandelbrot
+status: to read
+
+---
+
+title: Does God Play Dice? The New Mathematics of Chaos
+author: Ian Stewart
+read: 2026-03-09
+
+---
+
+title: Sync
+author: Steven H. Strogatz
+read: 2026-01-18
+cover: sync.svg
+
+---
+
+title: The Structure of Scientific Revolutions
+author: Thomas S. Kuhn
+read: 2025-07-30
+
+---
+
+title: How to Solve It
+author: George Pólya
+read: 2025-05-11
+
+---
+
+title: A Mathematician's Apology
+author: G. H. Hardy
+read: 2025-02-01
+
+Sample review. Short, proud and melancholy.
+
+---
+
+title: The Art of Doing Science and Engineering
+author: Richard W. Hamming
+status: reading
+
+---
+
+title: Labyrinths
+author: Jorge Luis Borges
+read: 2024-09-15
+favourite: yes
+
+Sample review. Contains "The Library of Babel", which is reason enough for
+it to be on a shelf here.
+
+---
+
+title: If on a winter's night a traveler
+author: Italo Calvino
+read: 2024-06-03
+
+---
+
+title: The Name of the Rose
+author: Umberto Eco
+status: to read
+
+---
+
+title: Thinking in Systems
+author: Donella H. Meadows
+status: to read
+
+---
+
+title: The Pleasure of Finding Things Out
+author: Richard P. Feynman
+read: 2023
+
+---
+
+title: Order Out of Chaos
+author: Ilya Prigogine and Isabelle Stengers
+status: to-read
+
+---
+
+title: The Form of the Book
+author: Jan Tschichold
+read: 2026-09-01
+statuss: read
+
+---
+
+title: Practical Typography
+author: Matthew Butterick
+read: 2026-09-20
+link: https://practicaltypography.com
+
+---
+
+title: An Untitled Pamphlet
+read: sometime last spring

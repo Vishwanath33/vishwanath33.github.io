@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" width="400" height="600">
+<rect width="200" height="300" fill="#10151c"/>
+<path d="M100 150c-60-70-70-120-20-130s60 60 20 130c40-70 50-140 100-130s40 60-20 130" fill="none" stroke="#ff683a" stroke-width="3"/><path d="M100 150c-40-50-50-90-15-97s40 45 15 97c25-52 30-104 65-97s25 47-15 97" fill="none" stroke="#f4ebd8" stroke-width="1.5"/>
+<text x="100" y="232" font-family="Georgia,serif" font-size="15" letter-spacing="2" fill="#f4ebd8" text-anchor="middle">CHAOS</text>
+<text x="100" y="268" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#f4ebd8" text-anchor="middle">James Gleick</text>
+</svg>

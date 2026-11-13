@@ -1,0 +1,87 @@
+---
+layout: layouts/base.njk
+title: Books
+summary: Books read, being read, and waiting to be read.
+permalink: /books/index.html
+usesBooks: true
+---
+{%- set lib = booksSource | shelve -%}
+
+{#- One cover. Its card (date, review, links) is written once, in the list
+    at the foot of the page, and shown beside the cover by books.js. -#}
+{%- macro cover(b) -%}
+<li class="book" data-status="{{ b.status }}">
+  <button type="button" class="book__button" data-book="{{ b.id }}" aria-haspopup="dialog" aria-expanded="false">
+    {%- if b.cover %}
+    <span class="cover" aria-hidden="true"><img src="/assets/covers/{{ b.cover }}" alt="" loading="lazy" decoding="async"></span>
+    {%- else %}
+    <span class="cover cover--set" style="--cloth: {{ b.cloth }}; --title: {{ b.titleSize }}cqi" aria-hidden="true"><span class="cover__title">{{ b.title }}</span>{% if b.author %}<span class="cover__author">{{ b.author }}</span>{% endif %}</span>
+    {%- endif %}
+    {%- if b.status != "read" %}<span class="book__mark" aria-hidden="true">{{ b.glyph }}</span>{% endif %}
+    {%- if b.review %}<span class="book__ribbon" aria-hidden="true"></span>{% endif %}
+    <span class="sr-only">{{ b.title }}{% if b.author %}, by {{ b.author }}{% endif %}. {{ b.statusLabel }}{% if b.date %}, {{ b.date }}{% endif %}.{% if b.review %} With a review.{% endif %}</span>
+  </button>
+</li>
+{%- endmacro -%}
+
+<header class="entry__head">
+  <p class="kicker">Reading room{% if lib.total %}<span class="kicker__sep">·</span>{{ lib.total }} {{ "book" if lib.total == 1 else "books" }}{% endif %}</p>
+  <h1 class="entry__title">Books</h1>
+  <p class="entry__dek">Books read, being read, and waiting to be read. Select a cover for its date and any review.</p>
+</header>
+
+{% if not lib.total %}
+<p class="empty-note">No books on these shelves yet.</p>
+{% else %}
+
+{% if lib.reading.length %}
+<section class="shelf" aria-labelledby="shelf-reading">
+  <h2 class="section-head" id="shelf-reading">Reading now</h2>
+  <ul class="books">{% for b in lib.reading %}{{ cover(b) }}{% endfor %}</ul>
+</section>
+{% endif %}
+
+{% if lib.recent.length %}
+<section class="shelf" aria-labelledby="shelf-recent">
+  <h2 class="section-head" id="shelf-recent">Recently read</h2>
+  <ul class="books books--row">{% for b in lib.recent %}{{ cover(b) }}{% endfor %}</ul>
+</section>
+{% endif %}
+
+{% if lib.favourites.length %}
+<section class="shelf" aria-labelledby="shelf-favourites">
+  <h2 class="section-head" id="shelf-favourites">Favourites <span class="section-head__aside">in the order read</span></h2>
+  <ul class="books">{% for b in lib.favourites %}{{ cover(b) }}{% endfor %}</ul>
+</section>
+{% endif %}
+
+<section class="shelf" aria-labelledby="shelf-all">
+  <h2 class="section-head" id="shelf-all">All books <span class="section-head__aside">by author</span></h2>
+  <div class="shelf__filter" role="group" aria-label="Show" data-book-filter hidden>
+    <button type="button" data-show="all" aria-pressed="true">All <span>{{ lib.total }}</span></button>
+    {%- for key, st in lib.statuses %}{% if lib.counts[key] %}
+    <button type="button" data-show="{{ key }}" aria-pressed="false"><span aria-hidden="true">{{ st.glyph }}</span> {{ st.short }} <span>{{ lib.counts[key] }}</span></button>
+    {%- endif %}{% endfor %}
+  </div>
+  <ul class="books" data-book-shelf>{% for b in lib.all %}{{ cover(b) }}{% endfor %}</ul>
+  <p class="empty-note" data-book-none hidden>No books with that status.</p>
+</section>
+
+{# The cards. Without JavaScript this is simply the list, in full. #}
+<section class="book-list" aria-labelledby="book-list-title" data-book-cards>
+  <h2 class="section-head" id="book-list-title">The list</h2>
+  {% for b in lib.all %}
+  <article class="bookcard" id="{{ b.id }}">
+    <p class="bookcard__status"><span aria-hidden="true">{{ b.glyph }}</span> {{ b.statusLabel }}{% if b.date %}<span class="kicker__sep">·</span>{{ b.date }}{% endif %}{% if b.favourite %}<span class="kicker__sep">·</span>Favourite{% endif %}</p>
+    <h3 class="bookcard__title">{{ b.title }}</h3>
+    {% if b.author %}<p class="bookcard__author">{{ b.author }}</p>{% endif %}
+    {% if b.review %}<div class="bookcard__review">{{ b.review | safe }}</div>{% endif %}
+    <p class="bookcard__links">
+      {%- if b.note %}<a href="{{ b.note }}">The entry on it here</a>{% endif %}
+      {%- if b.link %}<a href="{{ b.link }}" class="external" rel="noopener">More about it</a>
+      {%- else %}<a href="{{ b.lookup }}" class="external" rel="noopener">Look it up</a>{% endif -%}
+    </p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}

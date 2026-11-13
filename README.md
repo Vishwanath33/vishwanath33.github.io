@@ -104,9 +104,60 @@ Does the flap of a butterfly's wings in Brazil set off a tornado in Texas?
 
 ---
 
+## Books
+
+The **Books** page (`/books/`) is a wall of covers: what is being read, what
+was read lately, favourites in the order they were read, and everything by
+author. Selecting a cover opens a card with the date and any review.
+
+It is built from one plain file, **`src/books.txt`**. One block per book,
+with a line of three dashes between books:
+
+```
+title: Chaos: Making a New Science
+author: James Gleick
+read: 2024-03-10
+favourite: yes
+cover: chaos.jpg
+
+Anything after a blank line is the review, in Markdown. It can run to
+several paragraphs and link to entries with [[wiki links]].
+
+---
+
+title: The Fractal Geometry of Nature
+author: Benoit B. Mandelbrot
+status: to read
+```
+
+Only `title` is required. No quotes, commas or indentation are needed.
+
+| Field | What it does |
+|---|---|
+| `title` | The title, written as you like. |
+| `author` | Books are shelved by the author's surname. |
+| `read` | When it was finished: `2024-03-10`, `2024-03` or `2024`. |
+| `status` | `read`, `reading` or `to read`. Left out, the book counts as read. |
+| `favourite` | `yes` puts it on the Favourites shelf. |
+| `cover` | The name of an image in `src/assets/covers/`. |
+| `link` | A web address for the book. Left out, the card links to a search for it on Open Library. |
+| `note` | The name of an entry in `src/notes/` about the book, e.g. `plate-i`. |
+
+**Covers** are optional. Put an image in `src/assets/covers/` (portrait,
+about 400 pixels wide is plenty) and name it in the book's `cover:` line. A
+book without one gets a cover set in type on book cloth, so the page looks
+finished from the first title.
+
+Mistakes never stop the build. A misspelt field, a cover file that isn't
+there or a date it can't read is reported in the build log (lines beginning
+`[books]`) and the book still appears, without that detail.
+
+---
+
 ## Finding things
 
 - **Home**: every entry, grouped into parts by shelf.
+- **Books** (`/books/`): the reading list, as covers.
 - **Subjects** (`/tags/`): an alphabetical subject index.
 - **Map** (`/map/`): the whole library as a graph; drag, scroll to zoom,
   select a node to open it.
@@ -252,9 +303,13 @@ src/
   assets/js/plate.js       ← Plate I, the attractor as an instrument
   assets/js/graph.js       ← the neighbourhood figures and the map
   assets/js/library.js     ← search, sidenotes, theme
+  assets/js/books.js       ← the Books page: cards and the status filter
+  assets/covers/           ← cover images for the Books page
+  books.txt                ← the reading list behind the Books page
   notes/*.md               ← the library
-  index.njk  notes.njk  tags.njk  map.njk  about.md  colophon.md
+  index.njk  books.njk  tags.njk  map.njk  about.md  colophon.md
   graph.njk  search.njk    ← graph.json and search.json
+lib/books.js               ← reads books.txt and sorts it onto shelves
 eleventy.config.js         ← wiki links, citations, accession numbers, search, feed
 test/smoke.mjs             ← browser checks for the interactive parts
 ```

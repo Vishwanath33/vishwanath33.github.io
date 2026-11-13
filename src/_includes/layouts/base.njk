@@ -27,7 +27,9 @@
 {% if isNote or usesGraph %}<link rel="prefetch" id="graph-src" href="/graph.json" as="fetch" crossorigin>{% endif %}
 
 <script>
-  /* Set the theme before first paint so nothing flashes. */
+  /* Set the theme before first paint so nothing flashes, and say that
+     scripts run, so what they will fold away never shows unfolded. */
+  document.documentElement.classList.add("js");
   (function () {
     try {
       var t = localStorage.getItem("library-theme");
@@ -49,6 +51,7 @@
     <header class="running-head">
       <nav class="running-head__nav" aria-label="Primary">
         <a href="/"{% if home %} aria-current="page"{% endif %}>Home</a>
+        <a href="/books/"{% if page.url == '/books/' %} aria-current="page"{% endif %}>Books</a>
         <a href="/tags/"{% if page.url == '/tags/' %} aria-current="page"{% endif %}>Subjects</a>
         <a href="/map/"{% if page.url == '/map/' %} aria-current="page"{% endif %}>Map</a>
         <a href="/about/"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
@@ -87,5 +90,6 @@
 <script src="/assets/js/library.js" defer></script>
 {% if 'data-plate' in content %}<script src="/assets/js/plate.js" defer></script>{% endif %}
 {% if isNote or usesGraph %}<script src="/assets/js/graph.js" defer></script>{% endif %}
+{% if usesBooks %}<script src="/assets/js/books.js" defer></script>{% endif %}
 </body>
 </html>

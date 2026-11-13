@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" width="400" height="600">
+<rect width="200" height="300" fill="#e9e2d0"/>
+<circle cx="100" cy="120" r="56" fill="none" stroke="#1f6f68" stroke-width="2"/><circle cx="100" cy="120" r="38" fill="none" stroke="#b3361b" stroke-width="2"/><circle cx="100" cy="120" r="20" fill="none" stroke="#1a1a1c" stroke-width="2"/>
+<text x="100" y="232" font-family="Georgia,serif" font-size="15" letter-spacing="2" fill="#1a1a1c" text-anchor="middle">THE ESSENCE OF CHAOS</text>
+<text x="100" y="268" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#1a1a1c" text-anchor="middle">Edward N. Lorenz</text>
+</svg>

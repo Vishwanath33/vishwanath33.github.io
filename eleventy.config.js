@@ -7,6 +7,7 @@ import markdownItFootnote from "markdown-it-footnote";
 import markdownItAnchor from "markdown-it-anchor";
 import markdownItAttrs from "markdown-it-attrs";
 import siteData from "./src/_data/site.js";
+import { shelve } from "./lib/books.js";
 
 const NOTES_GLOB = "src/notes/*.md";
 const NOTE_URL = (slug) => `/notes/${slug}/`;
@@ -62,6 +63,23 @@ export default function (eleventyConfig) {
     "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-{400-normal,500-normal,400-italic}.woff2": "assets/fonts",
   });
   eleventyConfig.addWatchTarget("src/assets/");
+
+  // --- books --------------------------------------------------------------
+  // The reading list is one plain file; see lib/books.js for its format.
+  const BOOKS_FILE = "src/books.txt";
+  eleventyConfig.addWatchTarget(BOOKS_FILE);
+  eleventyConfig.addGlobalData("booksSource", () =>
+    fs.existsSync(BOOKS_FILE) ? fs.readFileSync(BOOKS_FILE, "utf8") : "",
+  );
+  eleventyConfig.addFilter("shelve", (source) =>
+    shelve(source, {
+      // Reviews are Markdown, and may link to entries with [[wiki links]].
+      render: (review) => md.render(expandWikiLinks(review)),
+      coversDir: "src/assets/covers",
+      notesDir: "src/notes",
+      noteUrl: NOTE_URL,
+    }),
+  );
 
   // --- markdown -----------------------------------------------------------
   eleventyConfig.amendLibrary("md", (lib) => {

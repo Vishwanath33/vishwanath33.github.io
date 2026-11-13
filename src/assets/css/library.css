@@ -893,6 +893,265 @@ code, pre, samp { font-family: var(--mono); font-size: 0.8em; font-variant-numer
 .subject a:hover { color: var(--accent); }
 .subject:target .subject__head { color: var(--accent); }
 
+/* --- books -------------------------------------------------------------------
+   Covers on shelves. A fixed number to the row at each width, so "recently
+   read" can be exactly one row; an image where there is one, and otherwise
+   a cover set in type on book cloth. */
+.shelf { --cols: 7; margin-bottom: 3.75rem; }
+@container text (max-width: 44rem) { .shelf { --cols: 6; } .books--row > :nth-child(n + 7) { display: none; } }
+@container text (max-width: 36rem) { .shelf { --cols: 5; } .books--row > :nth-child(n + 6) { display: none; } }
+@container text (max-width: 28rem) { .shelf { --cols: 4; } .books--row > :nth-child(n + 5) { display: none; } }
+@container text (max-width: 19rem) { .shelf { --cols: 3; } .books--row > :nth-child(n + 4) { display: none; } }
+
+.section-head__aside { margin-left: 0.9em; font-weight: 400; color: var(--ink-3); }
+
+.books {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 1.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.book[hidden] { display: none; }
+.book__button {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.cover {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 1px 3px 3px 1px;
+  background: var(--paper-2);
+  box-shadow: 0 1px 1px rgba(30, 20, 10, 0.3), 0 10px 16px -9px rgba(30, 20, 10, 0.6);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
+}
+.cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The hinge: a shadow and a catch of light down the spine side. */
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0) 3.5%, rgba(255, 255, 255, 0.17) 5.5%, rgba(255, 255, 255, 0) 9%);
+  pointer-events: none;
+}
+.book__button:hover .cover,
+.book__button[aria-expanded="true"] .cover {
+  transform: translateY(-3px);
+  box-shadow: 0 1px 1px rgba(30, 20, 10, 0.3), 0 18px 22px -12px rgba(30, 20, 10, 0.7);
+}
+
+/* A cover set in type: cloth, a blind-stamped frame, title and author. */
+.cover--set {
+  container-type: inline-size;
+  background: var(--cloth, #3b3a3d);
+  color: #f0e7d3;
+  text-align: left;
+}
+.cover--set::before {
+  content: "";
+  position: absolute;
+  inset: 4% 6% 4% 10%;
+  border: 1px solid rgba(240, 231, 211, 0.34);
+  border-radius: 1px;
+}
+.cover__title,
+.cover__author {
+  position: absolute;
+  left: 17%;
+  right: 11%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.cover__title {
+  top: 11%;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  font: 500 var(--title, 12.5cqi)/1.12 var(--serif);
+  letter-spacing: -0.01em;
+}
+.cover__author {
+  bottom: 9%;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  font: 400 7.6cqi/1.3 var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(240, 231, 211, 0.74);
+}
+
+/* Not yet read: paler, until approached. */
+.book[data-status="to-read"] .cover { filter: saturate(0.5); opacity: 0.7; }
+.book[data-status="to-read"] .book__button:hover .cover,
+.book[data-status="to-read"] .book__button[aria-expanded="true"] .cover { filter: none; opacity: 1; }
+
+/* ○ to read, ◐ reading; a read book carries no mark. */
+.book__mark {
+  position: absolute;
+  left: -0.35rem;
+  bottom: -0.35rem;
+  display: grid;
+  place-items: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--rule);
+  font: 0.8rem/1 var(--mono);
+  color: var(--ink-2);
+}
+.book[data-status="reading"] .book__mark { color: var(--accent); }
+
+/* A ribbon marks a book with a review inside. */
+.book__ribbon {
+  position: absolute;
+  top: -3px;
+  right: 13%;
+  width: 0.5rem;
+  height: 1.3rem;
+  background: var(--accent);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+
+.shelf__filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  margin: -0.7rem 0 1.7rem;
+  font: 0.7rem var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.shelf__filter[hidden] { display: none; }
+.shelf__filter button {
+  padding: 0 0 0.2rem;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--ink-3);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+}
+.shelf__filter button:hover { color: var(--accent); }
+.shelf__filter button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.shelf__filter button span:last-child { margin-left: 0.25em; color: var(--ink-3); }
+
+/* A book's card: once in the list at the foot of the page (all a reader
+   without scripts gets, and enough), and beside its cover when opened. */
+.js .book-list { display: none; }
+.book-list .bookcard { max-width: var(--measure); padding: 1.3rem 0; border-bottom: 1px solid var(--rule); }
+.bookcard__status {
+  margin: 0 0 0.55rem;
+  font: 0.66rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.bookcard__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 460;
+  line-height: 1.14;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+.bookcard__author { margin: 0.25rem 0 0; font-size: 1.05rem; font-style: italic; color: var(--ink-2); }
+.bookcard__review { margin-top: 0.85rem; font-size: 1.02rem; line-height: 1.45; }
+.bookcard__review > :first-child { margin-top: 0; }
+.bookcard__review > :last-child { margin-bottom: 0; }
+.bookcard__review p { margin: 0 0 0.65em; }
+.bookcard__review a,
+.bookcard__links a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.bookcard__review a:hover,
+.bookcard__links a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.bookcard__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.3rem;
+  margin: 0.95rem 0 0;
+  font: 0.68rem var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.bookcard__links a.external::after { content: " ↗"; color: var(--accent); }
+
+.book-pop {
+  position: absolute;
+  z-index: 20;
+  width: min(23rem, calc(100vw - 1rem));
+  max-height: min(34rem, 82vh);
+  overflow: auto;
+  padding: 1.15rem 1.3rem 1.2rem;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-top: 2px solid var(--ink);
+  border-radius: 2px;
+  box-shadow: var(--card-shadow), 0 26px 50px -26px rgba(30, 20, 10, 0.55);
+}
+.book-pop[hidden] { display: none; }
+.book-pop:focus { outline: none; }
+.book-pop__close {
+  display: none;
+  float: right;
+  margin: -0.25rem -0.35rem 0.4rem 0.8rem;
+  padding: 0.15rem 0.35rem;
+  font: 0.66rem var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.book-pop__close:hover { color: var(--accent); }
+.book-pop.is-pinned .book-pop__close { display: block; }
+
+@media (max-width: 34rem) {
+  .books { gap: 1.2rem 0.75rem; }
+  /* On a phone the card rises from the foot of the screen. */
+  .book-pop {
+    position: fixed;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    width: auto;
+    max-height: 62svh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover { transition: none; }
+  .book__button:hover .cover,
+  .book__button[aria-expanded="true"] .cover { transform: none; }
+}
+
 /* --- foot --------------------------------------------------------------------- */
 .foot {
   padding: 1.25rem 0 2rem;

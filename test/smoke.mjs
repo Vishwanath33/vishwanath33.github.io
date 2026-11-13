@@ -5,7 +5,7 @@
  */
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { cpSync, mkdtempSync, readdirSync, rmSync, symlinkSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync, symlinkSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { extname, join, normalize } from "node:path";
@@ -14,6 +14,8 @@ import site from "../src/_data/site.js";
 
 const REPO = new URL("..", import.meta.url).pathname;
 const FIXTURES = join(REPO, "test/fixtures/notes");
+const BOOK_FIXTURES = join(REPO, "test/fixtures/books.txt");
+const COVER_FIXTURES = join(REPO, "test/fixtures/covers");
 const ELEVENTY = join(REPO, "node_modules/@11ty/eleventy/cmd.cjs");
 const TYPES = {
   ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json",
@@ -29,11 +31,15 @@ const temps = [];
 function build({ entries, fixtures }) {
   const dir = mkdtempSync(join(tmpdir(), "library-"));
   temps.push(dir);
-  for (const f of ["eleventy.config.js", "package.json", "src"]) cpSync(join(REPO, f), join(dir, f), { recursive: true });
+  for (const f of ["eleventy.config.js", "package.json", "src", "lib"]) cpSync(join(REPO, f), join(dir, f), { recursive: true });
   symlinkSync(join(REPO, "node_modules"), join(dir, "node_modules"));
   const notes = join(dir, "src/notes");
   if (!entries) for (const f of readdirSync(notes)) if (f.endsWith(".md")) rmSync(join(notes, f));
-  if (fixtures) for (const f of readdirSync(FIXTURES)) cpSync(join(FIXTURES, f), join(notes, f));
+  if (fixtures) {
+    for (const f of readdirSync(FIXTURES)) cpSync(join(FIXTURES, f), join(notes, f));
+    cpSync(BOOK_FIXTURES, join(dir, "src/books.txt"));
+    cpSync(COVER_FIXTURES, join(dir, "src/assets/covers"), { recursive: true });
+  }
   execFileSync(process.execPath, [ELEVENTY, "--quiet"], { cwd: dir, stdio: "pipe" });
   return join(dir, "_site");
 }
@@ -66,7 +72,9 @@ const SITE = `http://127.0.0.1:8098${PREFIX}`;        // exactly as published
 const EMPTY = `http://127.0.0.1:8097${PREFIX}`;       // no entries at all
 
 const browser = await chromium.launch({
-  executablePath: process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+  executablePath:
+    process.env.CHROMIUM_PATH ||
+    ["/opt/pw-browsers/chromium", "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"].find((f) => existsSync(f)),
 });
 const ok = [];
 const bad = [];
@@ -241,7 +249,7 @@ const canvasPainted = (p, sel) =>
   const { ctx, p } = await page();
   await p.goto(BASE, { waitUntil: "networkidle" });
   const nav = (await p.locator(".running-head__nav a").allTextContents()).map((t) => t.trim());
-  check(nav[0] === "Home" && !nav.some((t) => /contents|catalogue/i.test(t)), `running head starts with Home, no Catalogue (${nav.join(", ")})`);
+  check(nav[0] === "Home" && nav[1] === "Books" && !nav.some((t) => /contents|catalogue/i.test(t)), `running head starts with Home and Books, no Catalogue (${nav.join(", ")})`);
   check(await p.locator('.running-head__nav a[href$="/"]').first().getAttribute("aria-current") === "page", "Home is marked current on the home page");
   check((await p.locator("#contents-title").textContent()).trim() === "Home", "the list on the home page is headed Home");
   check((await p.request.get(`${BASE}notes/`)).status() === 404, "there is no catalogue page");
@@ -301,7 +309,7 @@ const canvasPainted = (p, sel) =>
 // --- an empty library -------------------------------------
 {
   const { ctx, p, problems } = await page();
-  for (const path of ["", "tags/", "map/", "about/", "colophon/", "404.html"]) {
+  for (const path of ["", "books/", "tags/", "map/", "about/", "colophon/", "404.html"]) {
     await p.goto(`${EMPTY}${path}`, { waitUntil: "networkidle" });
   }
   check(problems.length === 0, `empty site: every page loads cleanly${problems.length ? " — " + problems.join(", ") : ""}`);
@@ -323,6 +331,107 @@ const canvasPainted = (p, sel) =>
   const feed = await (await p.request.get(`${EMPTY}feed.xml`)).text();
   check(feed.includes("<feed") && !feed.includes("<entry>"), "empty site: feed is valid and has no entries");
   await ctx.close();
+}
+
+// --- books ----------------------------------------------------------------------
+{
+  const { ctx, p, problems } = await page({ viewport: { width: 1440, height: 1000 } });
+  await p.goto(`${BASE}books/`, { waitUntil: "networkidle" });
+  const shelfCount = (id) => p.locator(`section[aria-labelledby="${id}"] .book`).count();
+  check(problems.length === 0, `books: every request resolves, no script errors${problems.length ? " — " + problems.join(", ") : ""}`);
+  check((await shelfCount("shelf-all")) === 22, "books: every book in the list is on the main shelf");
+  check((await shelfCount("shelf-reading")) === 2, "books: the two being read are on Reading now");
+  check((await shelfCount("shelf-favourites")) === 6, "books: favourites have their own shelf");
+
+  const titles = (id) => p.locator(`section[aria-labelledby="${id}"] .book .sr-only`).allTextContents();
+  const recent = await titles("shelf-recent");
+  check(recent.length === 7 && recent[0].startsWith("Practical Typography") && recent[1].startsWith("The Form of the Book"), "books: recently read is the latest seven, newest first");
+  const favs = await titles("shelf-favourites");
+  check(favs[0].startsWith("Labyrinths") && favs[5].startsWith("Chaos"), "books: favourites run in the order they were read");
+  const all = await titles("shelf-all");
+  check(all[0].startsWith("Labyrinths") && all[1].startsWith("The Elements of Typographic Style") && all[20].startsWith("The Visual Display"), "books: the main shelf is in order of author's surname, however the name is written");
+  check(all[21].startsWith("An Untitled Pamphlet"), "books: a book with no author goes last");
+
+  check(await p.locator('[data-book-shelf] img[src$="covers/chaos.svg"]').evaluate((img) => img.complete && img.naturalWidth > 0), "books: a cover image loads");
+  const strogatz = p.locator('[data-book-shelf] .book:has-text("Nonlinear Dynamics") .cover--set');
+  check(await strogatz.count() === 1, "books: a cover whose file is missing is set in type instead");
+  check(await p.locator(".cover--set").first().evaluate((el) => { const t = el.querySelector(".cover__title"); return t.scrollWidth <= t.clientWidth + 1; }), "books: a typeset title fits its cover");
+  check(await p.locator('[data-book-shelf] .book[data-status="to-read"] .book__mark').count() === 4 && await p.locator('[data-book-shelf] .book[data-status="read"] .book__mark').count() === 0, "books: unread books are marked, read ones are not");
+  check(await p.locator("[data-book-shelf] .book__ribbon").count() === 6, "books: a ribbon marks each book with a review");
+  check(!(await p.locator(".book-list").isVisible()), "books: the plain list is folded away when scripts run");
+
+  // A card: a glance on hover, kept open on click.
+  const chaos = p.locator('[data-book-shelf] [data-book="book-chaos-making-a-new-science-gleick"]');
+  await chaos.scrollIntoViewIfNeeded();
+  await chaos.hover();
+  await p.waitForTimeout(250);
+  const pop = p.locator("#book-pop");
+  check(await pop.isVisible() && (await pop.innerText()).includes("James Gleick") && !(await p.evaluate(() => window.__books.pinned)), "books: hovering a cover shows its card");
+  check(/14 August 2026/i.test(await pop.innerText()) && /favourite/i.test(await pop.innerText()), "books: the card gives the date read and that it is a favourite");
+  check(await pop.locator('.bookcard__review a[href$="/notes/sensitive-dependence/"]').count() === 1, "books: a review is Markdown, and its wiki links work");
+  check(await pop.locator('.bookcard__links a[href$="/notes/lorenz-attractor/"]').count() === 1, "books: the card links to the entry about the book");
+  check((await pop.locator(".bookcard__links a.external").getAttribute("href")).startsWith("https://openlibrary.org/search?q=Chaos"), "books: with no link given, the card offers a search for the book");
+  const fits = await p.evaluate(() => {
+    const r = document.querySelector("#book-pop").getBoundingClientRect();
+    const c = document.querySelector('[data-book-shelf] [data-book="book-chaos-making-a-new-science-gleick"]').getBoundingClientRect();
+    return r.left >= 0 && r.right <= innerWidth && r.top >= 0 && r.bottom <= innerHeight && (r.right <= c.left || r.left >= c.right);
+  });
+  check(fits, "books: the card sits beside its cover, inside the window");
+  await p.mouse.move(5, 5);
+  await p.waitForTimeout(350);
+  check(await pop.isHidden(), "books: …and goes when the pointer leaves");
+
+  await chaos.click();
+  check(await pop.isVisible() && await p.evaluate(() => window.__books.pinned && document.activeElement.id === "book-pop") && await chaos.getAttribute("aria-expanded") === "true", "books: clicking a cover keeps its card open and moves focus to it");
+  await p.mouse.move(5, 5);
+  await p.waitForTimeout(350);
+  check(await pop.isVisible(), "books: an opened card stays when the pointer leaves");
+  await p.keyboard.press("Escape");
+  check(await pop.isHidden() && await p.evaluate(() => document.activeElement.dataset.book === "book-chaos-making-a-new-science-gleick"), "books: Escape closes it and returns to the cover");
+  await chaos.click();
+  await p.locator(".entry__title").click();
+  check(await pop.isHidden(), "books: clicking elsewhere closes it");
+
+  const essence = p.locator('[data-book-shelf] [data-book="book-the-essence-of-chaos-lorenz"]');
+  await essence.click();
+  check((await pop.locator(".bookcard__links a.external").getAttribute("href")).startsWith("https://uwapress.uw.edu/"), "books: a link given for a book replaces the search");
+  await p.keyboard.press("Escape");
+  const pamphlet = p.locator('[data-book-shelf] [data-book^="book-an-untitled-pamphlet"]');
+  await pamphlet.click();
+  check(/sometime last spring/i.test(await pop.innerText()), "books: a date that is not a date is shown as written");
+  await p.keyboard.press("Escape");
+
+  // The main shelf, by status.
+  await p.click('[data-book-filter] [data-show="to-read"]');
+  check(await p.locator("[data-book-shelf] .book:visible").count() === 4 && await p.getAttribute('[data-book-filter] [data-show="to-read"]', "aria-pressed") === "true", "books: the shelf can be narrowed to books not yet read");
+  await p.click('[data-book-filter] [data-show="all"]');
+  check(await p.locator("[data-book-shelf] .book:visible").count() === 22, "books: …and widened again");
+  await ctx.close();
+
+  const phone = await page({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  await phone.p.goto(`${BASE}books/`, { waitUntil: "networkidle" });
+  check(await phone.p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "books: no horizontal scroll on a phone");
+  check(await phone.p.locator('section[aria-labelledby="shelf-recent"] .book:visible').count() === 4, "books: on a phone, recently read is still one row");
+  await phone.p.locator('[data-book-shelf] [data-book="book-the-essence-of-chaos-lorenz"]').tap();
+  await phone.p.waitForTimeout(200);
+  const docked = await phone.p.evaluate(() => {
+    const r = document.querySelector("#book-pop").getBoundingClientRect();
+    return getComputedStyle(document.querySelector("#book-pop")).position === "fixed" && r.left >= 0 && r.right <= innerWidth && Math.abs(innerHeight - r.bottom) < 16;
+  });
+  check(docked, "books: on a phone, a tapped book's card rises from the foot of the screen");
+  await phone.p.locator(".book-pop__close").tap();
+  check(await phone.p.locator("#book-pop").isHidden(), "books: …and Close puts it away");
+  await phone.ctx.close();
+
+  const plain = await page({ javaScriptEnabled: false });
+  await plain.p.goto(`${BASE}books/`, { waitUntil: "load" });
+  check(await plain.p.locator(".book-list .bookcard").count() === 22 && await plain.p.locator(".book-list").isVisible() && await plain.p.locator("[data-book-filter]").isHidden(), "books: without scripts, the whole list is there to read");
+  await plain.ctx.close();
+
+  const nothing = await page();
+  await nothing.p.goto(`${EMPTY}books/`, { waitUntil: "networkidle" });
+  check((await nothing.p.locator(".empty-note").innerText()).includes("No books") && await nothing.p.locator(".book").count() === 0 && await nothing.p.locator('script[src$="books.js"]').count() === 1, "books: with no books listed, the page says so");
+  await nothing.ctx.close();
 }
 
 // --- the site as published: the home page and Plate I ---------------------------
