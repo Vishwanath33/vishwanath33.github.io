@@ -293,7 +293,7 @@ cover: the-power-of-now.jpg
 
 title: The Trading Game
 author: Gary Stevenson
-read: 2023
+read: 2024
 cover: the-trading-game.jpg
 
 ---
