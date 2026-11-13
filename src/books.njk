@@ -40,7 +40,7 @@ usesBooks: true
 {% endif %}
 
 <section class="shelf" aria-labelledby="shelf-all">
-  <h2 class="section-head" id="shelf-all">In the order I read them</h2>
+  <h2 class="section-head" id="shelf-all"></h2>
   <ul class="books" data-book-shelf>{% for b in lib.all %}{{ cover(b) }}{% endfor %}</ul>
 </section>
 
