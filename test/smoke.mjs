@@ -11,6 +11,7 @@ import { tmpdir } from "node:os";
 import { extname, join, normalize } from "node:path";
 import { chromium } from "playwright-core";
 import site from "../src/_data/site.js";
+import { shelve } from "../lib/books.js";
 
 const REPO = new URL("..", import.meta.url).pathname;
 const FIXTURES = join(REPO, "test/fixtures/notes");
@@ -338,6 +339,16 @@ const canvasPainted = (p, sel) =>
 
 // --- books ----------------------------------------------------------------------
 {
+  // Every status, as a reader would type it.
+  const typed = ["Read", "reading", "On hold", "Dropped", "dropped but want to read", "to return to", "To read", "nonsense"]
+    .map((st, i) => `title: Book ${i}\ndate: 2024-0${i + 1}-10\nstatus: ${st}\n`).join("\n---\n");
+  const lib = shelve(typed, { log: () => {} });
+  const st = Object.fromEntries(lib.all.map((b) => [b.title, b.status]));
+  check(
+    ["read", "reading", "on-hold", "dropped", "to-return", "to-return", "to-read", "read"].every((want, i) => st[`Book ${i}`] === want) &&
+      lib.warnings.length === 1 && lib.recent.length === 2 && lib.reading.length === 1 && lib.counts.dropped === 1,
+    "books: every status is understood as typed; an unknown one is reported; only finished books count as recently read",
+  );
   const { ctx, p, problems } = await page({ viewport: { width: 1440, height: 1000 } });
   await p.goto(`${BASE}books/`, { waitUntil: "networkidle" });
   const shelfCount = (id) => p.locator(`section[aria-labelledby="${id}"] .book`).count();

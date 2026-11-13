@@ -136,8 +136,8 @@ Only `title` is required. No quotes, commas or indentation are needed.
 |---|---|
 | `title` | The title, written as you like. |
 | `author` | Books are shelved by the author's surname. |
-| `read` | When it was finished: `2024-03-10`, `2024-03` or `2024`. |
-| `status` | `read`, `reading` or `to read`. Left out, the book counts as read. |
+| `read` | When it was finished: `2024-03-10`, `2024-03` or `2024`. `date` means the same, for a book that wasn't finished. |
+| `status` | `read`, `reading`, `on hold`, `to return to` (dropped, but meant to be picked up again), `to read` or `dropped`. Left out, the book counts as read. |
 | `favourite` | `yes` puts it on the Favourites shelf. |
 | `cover` | The name of an image in `src/assets/covers/`. |
 | `link` | A web address for the book. Left out, the card links to a search for it on Open Library. |

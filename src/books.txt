@@ -18,7 +18,10 @@
 #     title      the book's title, written as you like (colons are fine)
 #     author     who wrote it; books are shelved by the author's surname
 #     read       when you finished it: 2024-03-10, 2024-03 or just 2024
-#     status     read, reading or to read (left out, the book counts as read)
+#                (write "date:" instead for a book you did not finish:
+#                the day you started, paused or dropped it)
+#     status     read, reading, on hold, to return to, to read or dropped
+#                (left out, the book counts as read)
 #     favourite  yes puts it on the Favourites shelf
 #     cover      the name of an image in src/assets/covers/
 #                (left out, the cover is set in type)
@@ -118,5 +121,323 @@ title: 12 Rules for Life
 author: Jordan B. Peterson
 read: 2022-11-09
 cover: 12-rules-for-life.jpg
+
+---
+
+title: The Code of the Extraordinary Mind
+author: Vishen Lakhiani
+read: 2022-11-16
+
+---
+
+title: Mindset
+author: Carol S. Dweck
+read: 2022-11-23
+cover: mindset.jpg
+
+---
+
+title: What It Takes
+author: Stephen A. Schwarzman
+read: 2022-12-04
+
+---
+
+title: Deep Work
+author: Cal Newport
+read: 2022-12-13
+cover: deep-work.jpg
+
+---
+
+title: The Millionaire Fastlane
+author: MJ DeMarco
+read: 2022-12-23
+cover: the-millionaire-fastlane.jpg
+
+---
+
+title: The Slight Edge
+author: Jeff Olson
+read: 2023-03-06
+cover: the-slight-edge.jpg
+
+---
+
+title: The Almanack of Naval Ravikant
+author: Eric Jorgenson
+read: 2023-04-18
+
+---
+
+title: The Sh*t They Never Taught You
+author: Adam Ashton and Adam Jones
+read: 2023-05-05
+
+---
+
+title: The Male Advantage
+author: Kristofer Sturmey
+read: 2023-06-03
+
+---
+
+title: Outliers
+author: Malcolm Gladwell
+read: 2023-06-04
+cover: outliers.jpg
+
+---
+
+title: The 48 Laws of Power
+author: Robert Greene
+read: 2023-06-06
+favourite: yes
+cover: the-48-laws-of-power.jpg
+
+---
+
+title: The Daily Stoic
+author: Ryan Holiday and Stephen Hanselman
+date: 2023-07-16
+status: dropped
+cover: the-daily-stoic.jpg
+
+---
+
+title: The Beginning of Infinity
+author: David Deutsch
+date: 2023-07-29
+status: dropped
+
+---
+
+title: Time Is Money
+read: 2023-07-30
+
+---
+
+title: Your Next Five Moves
+author: Patrick Bet-David
+read: 2023-08-03
+
+---
+
+title: The Creature from Jekyll Island
+author: G. Edward Griffin
+date: 2023-08-07
+status: dropped
+cover: the-creature-from-jekyll-island.jpg
+
+---
+
+title: Principles
+author: Ray Dalio
+read: 2023-08-08
+cover: principles.jpg
+
+---
+
+title: As a Man Thinketh
+author: James Allen
+read: 2023-08-24
+favourite: yes
+cover: as-a-man-thinketh.jpg
+
+---
+
+title: Meditations
+author: Marcus Aurelius
+date: 2023-08-25
+status: dropped
+cover: meditations.jpg
+
+---
+
+title: The Pathless Path
+author: Paul Millerd
+read: 2023-09-02
+cover: the-pathless-path.jpg
+
+---
+
+title: The Science of Self-Learning
+author: Peter Hollins
+read: 2023-09-08
+
+---
+
+title: The Fabric of Reality
+author: David Deutsch
+date: 2023-09-11
+status: to return to
+
+---
+
+title: The Power of Now
+author: Eckhart Tolle
+read: 2023-09-22
+cover: the-power-of-now.jpg
+
+---
+
+title: The Trading Game
+read: 2023-10-17
+
+---
+
+title: Last Man Standing
+read: 2023-11-10
+
+---
+
+title: Never Split the Difference
+author: Chris Voss
+read: 2023-12-01
+cover: never-split-the-difference.jpg
+
+---
+
+title: The Prince
+author: Niccolò Machiavelli
+date: 2023-12-23
+status: to return to
+cover: the-prince.jpg
+
+---
+
+title: Mastery
+author: Robert Greene
+read: 2023-12-25
+favourite: yes
+cover: mastery.jpg
+
+---
+
+title: The Art of Focus
+author: Dan Koe
+read: 2024-01-23
+
+---
+
+title: The Birth of Tragedy
+author: Friedrich Nietzsche
+date: 2025-03-06
+status: dropped
+
+---
+
+title: Thus Spoke Zarathustra
+author: Friedrich Nietzsche
+read: 2025-03-08
+favourite: yes
+
+---
+
+title: Investing: The Last Liberal Art
+author: Robert G. Hagstrom
+read: 2025-03-30
+cover: investing-the-last-liberal-art.jpg
+
+---
+
+title: Red Rising
+author: Pierce Brown
+read: 2026-01-06
+favourite: yes
+cover: red-rising.jpg
+
+---
+
+title: Golden Son
+author: Pierce Brown
+read: 2026-01-12
+cover: golden-son.jpg
+
+---
+
+title: Morning Star
+author: Pierce Brown
+read: 2026-01-23
+cover: morning-star.jpg
+
+---
+
+title: Iron Gold
+author: Pierce Brown
+date: 2026-02-04
+status: on hold
+cover: iron-gold.jpg
+
+---
+
+title: Mistborn
+author: Brandon Sanderson
+read: 2026-03-01
+favourite: yes
+
+---
+
+title: The Well of Ascension
+author: Brandon Sanderson
+read: 2026-03-05
+cover: the-well-of-ascension.jpg
+
+---
+
+title: The Hero of Ages
+author: Brandon Sanderson
+read: 2026-03-10
+cover: the-hero-of-ages.jpg
+
+---
+
+title: Determined
+author: Robert M. Sapolsky
+read: 2026-04-04
+favourite: yes
+cover: determined.jpg
+
+---
+
+title: Chaos
+author: James Gleick
+read: 2026-05-10
+favourite: yes
+cover: chaos.jpg
+
+---
+
+title: Gödel, Escher, Bach
+author: Douglas R. Hofstadter
+date: 2026-06-01
+status: to return to
+cover: godel-escher-bach.jpg
+
+---
+
+title: Life Ascending
+author: Nick Lane
+read: 2026-06-20
+
+---
+
+title: The MANIAC
+author: Benjamín Labatut
+read: 2026-08-14
+
+---
+
+title: Being You
+author: Anil Seth
+date: 2026-09-03
+status: on hold
+
+---
+
+title: A Mind at Play
+author: Jimmy Soni and Rob Goodman
+date: 2026-10-24
+status: reading
 
 ---

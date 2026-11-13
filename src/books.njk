@@ -70,7 +70,7 @@ usesBooks: true
   <h2 class="section-head" id="book-list-title">The list</h2>
   {% for b in lib.all %}
   <article class="bookcard" id="{{ b.id }}">
-    <p class="bookcard__status"><span aria-hidden="true">{{ b.glyph }}</span> {{ b.statusLabel }}{% if b.date %}<span class="kicker__sep">·</span>{{ b.date }}{% endif %}{% if b.favourite %}<span class="kicker__sep">·</span>Favourite{% endif %}</p>
+    <p class="bookcard__status"><span aria-hidden="true">{{ b.glyph }}</span> {{ b.statusLabel }}{% if b.date %}<span class="kicker__sep">·</span>{% if b.dateWord %}{{ b.dateWord }} {% endif %}{{ b.date }}{% endif %}{% if b.favourite %}<span class="kicker__sep">·</span>Favourite{% endif %}</p>
     <h3 class="bookcard__title">{{ b.title }}</h3>
     {% if b.author %}<p class="bookcard__author">{{ b.author }}</p>{% endif %}
     {% if b.review %}<div class="bookcard__review">{{ b.review | safe }}</div>{% endif %}

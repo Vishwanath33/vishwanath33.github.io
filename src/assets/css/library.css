@@ -998,12 +998,12 @@ code, pre, samp { font-family: var(--mono); font-size: 0.8em; font-variant-numer
   color: rgba(240, 231, 211, 0.74);
 }
 
-/* Not yet read: paler, until approached. */
-.book[data-status="to-read"] .cover { filter: saturate(0.5); opacity: 0.7; }
-.book[data-status="to-read"] .book__button:hover .cover,
-.book[data-status="to-read"] .book__button[aria-expanded="true"] .cover { filter: none; opacity: 1; }
+/* Not read, or not finished: paler, until approached. */
+.book:is([data-status="to-read"], [data-status="to-return"], [data-status="dropped"]) .cover { filter: saturate(0.5); opacity: 0.7; }
+.book:is([data-status="to-read"], [data-status="to-return"], [data-status="dropped"]) .book__button:is(:hover, [aria-expanded="true"]) .cover { filter: none; opacity: 1; }
 
-/* ○ to read, ◐ reading; a read book carries no mark. */
+/* ◐ reading, ◑ on hold, ↺ to return to, ○ to read, × dropped; a read
+   book carries no mark. */
 .book__mark {
   position: absolute;
   left: -0.35rem;
