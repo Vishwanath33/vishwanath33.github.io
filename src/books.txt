@@ -30,3 +30,93 @@
 # Add books below this line, without the leading "#".
 
 ---
+
+title: Atomic Habits
+author: James Clear
+read: 2022-08-23
+cover: atomic-habits.jpg
+
+---
+
+title: Rich Dad Poor Dad
+author: Robert T. Kiyosaki
+read: 2022-08-26
+cover: rich-dad-poor-dad.jpg
+
+---
+
+title: The Richest Man in Babylon
+author: George S. Clason
+read: 2022-09-06
+cover: the-richest-man-in-babylon.jpg
+
+---
+
+title: The Compound Effect
+author: Darren Hardy
+read: 2022-09-12
+cover: the-compound-effect.jpg
+
+---
+
+title: The Power of Positive Thinking
+author: Norman Vincent Peale
+read: 2022-09-15
+cover: the-power-of-positive-thinking.jpg
+
+---
+
+title: The Magic of Thinking Big
+author: David J. Schwartz
+read: 2022-09-18
+cover: the-magic-of-thinking-big.jpg
+
+---
+
+title: Eat That Frog!
+author: Brian Tracy
+read: 2022-09-22
+cover: eat-that-frog.jpg
+
+---
+
+title: The Art of Thinking Clearly
+author: Rolf Dobelli
+read: 2022-09-26
+cover: the-art-of-thinking-clearly.jpg
+
+---
+
+title: The Psychology of Money
+author: Morgan Housel
+read: 2022-09-30
+cover: the-psychology-of-money.jpg
+
+---
+
+title: The Subtle Art of Not Giving a F*ck
+author: Mark Manson
+read: 2022-10-02
+cover: the-subtle-art.jpg
+
+---
+
+title: How to Become a Straight-A Student
+author: Cal Newport
+read: 2022-10-03
+
+---
+
+title: The Way of the Superior Man
+author: David Deida
+read: 2022-10-05
+cover: the-way-of-the-superior-man.jpg
+
+---
+
+title: 12 Rules for Life
+author: Jordan B. Peterson
+read: 2022-11-09
+cover: 12-rules-for-life.jpg
+
+---

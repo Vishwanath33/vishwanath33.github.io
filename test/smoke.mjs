@@ -5,7 +5,7 @@
  */
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync, symlinkSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, readdirSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { extname, join, normalize } from "node:path";
@@ -34,7 +34,10 @@ function build({ entries, fixtures }) {
   for (const f of ["eleventy.config.js", "package.json", "src", "lib"]) cpSync(join(REPO, f), join(dir, f), { recursive: true });
   symlinkSync(join(REPO, "node_modules"), join(dir, "node_modules"));
   const notes = join(dir, "src/notes");
-  if (!entries) for (const f of readdirSync(notes)) if (f.endsWith(".md")) rmSync(join(notes, f));
+  if (!entries) {
+    for (const f of readdirSync(notes)) if (f.endsWith(".md")) rmSync(join(notes, f));
+    writeFileSync(join(dir, "src/books.txt"), "");
+  }
   if (fixtures) {
     for (const f of readdirSync(FIXTURES)) cpSync(join(FIXTURES, f), join(notes, f));
     cpSync(BOOK_FIXTURES, join(dir, "src/books.txt"));
@@ -428,6 +431,21 @@ const canvasPainted = (p, sel) =>
   await plain.p.goto(`${BASE}books/`, { waitUntil: "load" });
   check(await plain.p.locator(".book-list .bookcard").count() === 22 && await plain.p.locator(".book-list").isVisible() && await plain.p.locator("[data-book-filter]").isHidden(), "books: without scripts, the whole list is there to read");
   await plain.ctx.close();
+
+  // The reading list as published: whatever is on it, it must hold together.
+  const live = await page();
+  await live.p.goto(`${SITE}books/`, { waitUntil: "networkidle" });
+  await live.p.evaluate(async () => {
+    for (const img of document.querySelectorAll(".cover img")) { img.loading = "eager"; await img.decode().catch(() => {}); }
+  });
+  const liveBooks = await live.p.evaluate(() => ({
+    books: document.querySelectorAll("[data-book-shelf] .book").length,
+    cards: document.querySelectorAll(".bookcard").length,
+    broken: [...document.querySelectorAll(".cover img")].filter((img) => !img.naturalWidth).map((img) => img.getAttribute("src")),
+  }));
+  check(live.problems.length === 0 && liveBooks.broken.length === 0, `published books: every cover image loads${liveBooks.broken.length ? " — " + liveBooks.broken.join(", ") : ""}${live.problems.length ? " — " + live.problems.join(", ") : ""}`);
+  check(liveBooks.books === liveBooks.cards, `published books: each of the ${liveBooks.books} has its card`);
+  await live.ctx.close();
 
   const nothing = await page();
   await nothing.p.goto(`${EMPTY}books/`, { waitUntil: "networkidle" });
