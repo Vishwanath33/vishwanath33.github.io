@@ -393,7 +393,6 @@ cover: iron-gold.jpg
 title: Mistborn
 author: Brandon Sanderson
 read: 2026-03-01
-favourite: yes
 cover: mistborn.jpg
 
 ---
@@ -453,6 +452,7 @@ cover: the-maniac.jpg
 title: Stories of Your Life and Others
 author: Ted Chiang
 read: 2026-08-22
+favourite: yes
 cover: stories-of-your-life-and-others.jpg
 
 ---
